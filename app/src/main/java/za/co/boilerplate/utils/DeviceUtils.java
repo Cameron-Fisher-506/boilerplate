@@ -8,35 +8,31 @@ import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
 import static android.content.Context.BATTERY_SERVICE;
 
-public class DeviceUtils
-{
-    public static String getIMEI(Context context)
-    {
+public class DeviceUtils {
+    public static String getIMEI(Context context) {
         String toReturn = null;
 
-        try
-        {
+        try {
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 toReturn = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 toReturn = telephonyManager.getImei();
-            }else{
+            } else {
                 toReturn = telephonyManager.getDeviceId();
             }
 
-        }catch(SecurityException e) // What exception?
+        } catch (SecurityException e) // What exception?
         {
             Log.d(ConstantUtils.TAG, "\n\nClass: DeviceUtils" +
                     "\nMethod: getIMEI" +
                     "\nError: " + e.getMessage() +
                     "\nCreatedTime: " + DTUtils.getCurrentDateTime());
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.d(ConstantUtils.TAG, "\n\nClass: DeviceUtils" +
                     "\nMethod: getIMEI" +
                     "\nError: " + e.getMessage() +
@@ -46,21 +42,17 @@ public class DeviceUtils
         return toReturn;
     }
 
-    public static String getBatteryLevel(Context context)
-    {
+    public static String getBatteryLevel(Context context) {
         String toReturn = null;
 
-        try
-        {
+        try {
             BatteryManager bm = (BatteryManager) context.getSystemService(BATTERY_SERVICE);
-            if(bm != null)
-            {
+            if (bm != null) {
                 int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
                 toReturn = String.valueOf(batLevel).concat("%");
             }
 
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             Log.d(ConstantUtils.TAG, "Method: DeviceUtils - getBatteryLevel"
                     + "\nMessage: " + e.getMessage()
                     + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
@@ -69,18 +61,14 @@ public class DeviceUtils
         return toReturn;
     }
 
-    public static String getNetworkType(Context context)
-    {
+    public static String getNetworkType(Context context) {
         String toReturn = null;
 
-        try
-        {
+        try {
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            if(telephonyManager != null)
-            {
+            if (telephonyManager != null) {
                 int networkType = telephonyManager.getNetworkType();
-                switch (networkType)
-                {
+                switch (networkType) {
                     case TelephonyManager.NETWORK_TYPE_1xRTT:
                         toReturn = "1xRTT";
                         break;
@@ -131,8 +119,7 @@ public class DeviceUtils
                         break;
                 }
             }
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.d(ConstantUtils.TAG, "Method: DeviceUtils - getNetworkType"
                     + "\nMessage: " + e.getMessage()
                     + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
@@ -141,19 +128,15 @@ public class DeviceUtils
         return toReturn;
     }
 
-    public static Boolean isRoaming(Context context)
-    {
+    public static Boolean isRoaming(Context context) {
         ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
 
-        if (networkInfo == null || !networkInfo.isConnected())
-        {
+        if (networkInfo == null || !networkInfo.isConnected()) {
             // No connection will be seen as roaming as it cannot be established reliably
             return true;
-        }
-        else
-        {
+        } else {
             NetworkInfo networkType = connManager.getActiveNetworkInfo();
             return networkType.isRoaming();
         }

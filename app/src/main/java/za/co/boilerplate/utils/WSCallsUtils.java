@@ -9,30 +9,25 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class WSCallsUtils extends AsyncTask<String, Void, String>
-{
+public class WSCallsUtils extends AsyncTask<String, Void, String> {
     private WSCallsUtilsTaskCaller wsCallsUtilsTaskCaller;
     private String dialogText;
 
     private int reqCode;
     //private static HashMap<String, String> urlMap;
 
-    private WSCallsUtils(WSCallsUtilsTaskCaller wsCallsUtilsTaskCaller, int reqCode)
-    {
+    private WSCallsUtils(WSCallsUtilsTaskCaller wsCallsUtilsTaskCaller, int reqCode) {
         this.wsCallsUtilsTaskCaller = wsCallsUtilsTaskCaller;
         this.reqCode = reqCode;
     }
 
-    public static void get(WSCallsUtilsTaskCaller wsCallsUtilsTaskCaller, String url, int reqCode)
-    {
-        try
-        {
+    public static void get(WSCallsUtilsTaskCaller wsCallsUtilsTaskCaller, String url, int reqCode) {
+        try {
             //url = getUrl(url);
 
             WSCallsUtils wsCallsUtils = new WSCallsUtils(wsCallsUtilsTaskCaller, reqCode);
             wsCallsUtils.execute(ConstantUtils.REQUEST_METHOD_GET, url);
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             Log.e(ConstantUtils.TAG, "\nError: " + e.getMessage()
                     + "\nMethod: WSCallsUtils - get"
                     + "\nURL: " + url
@@ -40,16 +35,13 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
         }
     }
 
-    public static void post(WSCallsUtilsTaskCaller wsCallsUtilsTaskCaller, String url, String body, int reqCode)
-    {
-        try
-        {
+    public static void post(WSCallsUtilsTaskCaller wsCallsUtilsTaskCaller, String url, String body, int reqCode) {
+        try {
             //url = getUrl(url);
 
             WSCallsUtils wsCallsUtils = new WSCallsUtils(wsCallsUtilsTaskCaller, reqCode);
             wsCallsUtils.execute(ConstantUtils.REQUEST_METHOD_POST, url, body);
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             Log.e(ConstantUtils.TAG, "\nError: " + e.getMessage()
                     + "\nMethod: WSCallsUtils - post"
                     + "\nURL: " + url
@@ -72,10 +64,8 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
 
         String requestMethod = strings[0];
         String url = strings[1];
-        try
-        {
-            if(requestMethod.equals(ConstantUtils.REQUEST_METHOD_GET))
-            {
+        try {
+            if (requestMethod.equals(ConstantUtils.REQUEST_METHOD_GET)) {
                 //GET
                 toReturn = genericGET(url);
                 //toReturn = new JSONObject();
@@ -83,8 +73,7 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
 
                 /*toReturn.put("url", url);
                 toReturn.put("response", response);*/
-            }else if(requestMethod.equals(ConstantUtils.REQUEST_METHOD_POST))
-            {
+            } else if (requestMethod.equals(ConstantUtils.REQUEST_METHOD_POST)) {
                 //POST
                 String body = strings[2];
 
@@ -97,15 +86,13 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
                 toReturn.put("response", response);*/
 
             }
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             Log.e(ConstantUtils.TAG, "\nError: " + e.getMessage()
                     + "\nMethod: WSCallsUtils - doInBackground"
                     + "\nURL: " + url
                     + "\nBody: " + strings[1]
                     + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
-        }finally
-        {
+        } finally {
 
         }
 
@@ -119,8 +106,7 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
 
 
     @Override
-    protected void onPostExecute(String body)
-    {
+    protected void onPostExecute(String body) {
 
         this.wsCallsUtilsTaskCaller.taskCompleted(body, this.reqCode);
         /*try
@@ -161,14 +147,12 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
 
     }
 
-    private String genericGET(String url)
-    {
+    private String genericGET(String url) {
         String toReturn = null;
 
         HttpURLConnection connection = null;
 
-        try
-        {
+        try {
             URL target = new URL(url);
             connection = (HttpURLConnection) target.openConnection();
             connection.setRequestMethod("GET");
@@ -179,10 +163,8 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
 
             connection.connect();
 
-            if(connection != null)
-            {
-                if(connection.getResponseCode() >= 400)
-                {
+            if (connection != null) {
+                if (connection.getResponseCode() >= 400) {
                     //Cache Data
 
                     Log.e(ConstantUtils.TAG, "\nError: " + connection.getResponseMessage()
@@ -190,32 +172,27 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
                             + "\nURL: " + url
                             + "\nMethod: genericGET"
                             + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
-                }else
-                {
+                } else {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     String output = "";
                     StringBuilder sb = new StringBuilder();
 
-                    while((output = bufferedReader.readLine()) != null)
-                    {
+                    while ((output = bufferedReader.readLine()) != null) {
                         sb.append(output);
                     }
                     toReturn = sb.toString();
                 }
             }
 
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             //Cache Data
 
             Log.e(ConstantUtils.TAG, "\nError: " + e.getMessage()
                     + "\nURL: " + url
                     + "\nMethod: genericGET"
                     + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
-        }finally
-        {
-            if(connection != null)
-            {
+        } finally {
+            if (connection != null) {
                 connection.disconnect();
                 connection = null;
             }
@@ -224,14 +201,12 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
         return toReturn;
     }
 
-    private String genericPOST(String url, String body)
-    {
+    private String genericPOST(String url, String body) {
         String toReturn = null;
 
         HttpURLConnection connection = null;
 
-        try
-        {
+        try {
             URL target = new URL(url);
             connection = (HttpURLConnection) target.openConnection();
             connection.setRequestMethod("POST");
@@ -249,10 +224,8 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
 
             connection.connect();
 
-            if(connection != null)
-            {
-                if(connection.getResponseCode() >= 400)
-                {
+            if (connection != null) {
+                if (connection.getResponseCode() >= 400) {
                     //Cache Data
 
                     Log.e(ConstantUtils.TAG, "\nError: " + connection.getResponseMessage()
@@ -260,13 +233,12 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
                             + "\nURL: " + url
                             + "\nMethod: genericPOST"
                             + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
-                }else
-                {
+                } else {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     StringBuilder sb = new StringBuilder();
                     String output = "";
 
-                    while((output = bufferedReader.readLine()) != null) {
+                    while ((output = bufferedReader.readLine()) != null) {
                         sb.append(output);
                     }
 
@@ -274,18 +246,15 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
                 }
             }
 
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             //Cache Data
 
             Log.e(ConstantUtils.TAG, "\nError: " + e.getMessage()
                     + "\nURL: " + url
                     + "\nMethod: genericPOST"
                     + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
-        }finally
-        {
-            if(connection != null)
-            {
+        } finally {
+            if (connection != null) {
                 connection.disconnect();
                 connection = null;
             }

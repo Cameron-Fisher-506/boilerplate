@@ -11,15 +11,12 @@ import android.widget.Toast;
 
 import za.co.boilerplate.BuildConfig;
 
-public class GeneralUtils
-{
-    public static void makeToast(Context context, String message)
-    {
+public class GeneralUtils {
+    public static void makeToast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
-    public static void openAppSettingsScreen(Context context)
-    {
+    public static void openAppSettingsScreen(Context context) {
         Intent settingsIntent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID));
         settingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(settingsIntent);

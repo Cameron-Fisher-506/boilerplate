@@ -2,14 +2,11 @@ package za.co.boilerplate.utils;
 
 import java.text.DecimalFormat;
 
-public class MathUtils
-{
-    public static Double precision(Double value)
-    {
+public class MathUtils {
+    public static Double precision(Double value) {
         Double toReturn = null;
 
-        if(value != null)
-        {
+        if (value != null) {
             DecimalFormat decimalFormat = new DecimalFormat("#,##");
             toReturn = Double.valueOf(decimalFormat.format(value));
         }

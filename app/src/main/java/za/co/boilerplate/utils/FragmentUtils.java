@@ -4,40 +4,32 @@ import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import za.co.boilerplate.R;
 
 public class FragmentUtils {
-    public static void startFragment(FragmentManager fragmentManager, Fragment fragment, int containerId, ActionBar actionBar, String title, boolean isRequireReplace, boolean isRequireBackStack, boolean isRequireAnimation, String tag)
-    {
+    public static void startFragment(FragmentManager fragmentManager, Fragment fragment, int containerId, ActionBar actionBar, String title, boolean isRequireReplace, boolean isRequireBackStack, boolean isRequireAnimation, String tag) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-
-        if(isRequireAnimation)
-        {
+        if (isRequireAnimation) {
             fragmentTransaction.setCustomAnimations(R.anim.push_in_from_left, R.anim.push_out_to_right, R.anim.push_in_from_right, R.anim.push_out_to_left);
             //fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
         }
 
-        if(isRequireReplace)
-        {
+        if (isRequireReplace) {
             fragmentTransaction.replace(containerId, fragment);
-        }else
-        {
+        } else {
             fragmentTransaction.add(containerId, fragment);
         }
 
-        if(isRequireBackStack)
-        {
+        if (isRequireBackStack) {
             fragmentTransaction.addToBackStack(tag);
         }
 
-        if(actionBar != null)
-        {
+        if (actionBar != null) {
             actionBar.setTitle(title);
-
         }
 
         fragmentTransaction.commit();
     }
-
 }

@@ -3,13 +3,16 @@ package za.co.boilerplate;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import org.json.JSONObject;
+
 import za.co.boilerplate.policies.PrivacyPolicyFrag;
 import za.co.boilerplate.utils.ConstantUtils;
 import za.co.boilerplate.utils.DTUtils;
@@ -18,8 +21,7 @@ import za.co.boilerplate.utils.SharedPreferencesUtils;
 import za.co.boilerplate.utils.WSCallsUtilsTaskCaller;
 
 
-public class MainActivity extends AppCompatActivity implements WSCallsUtilsTaskCaller
-{
+public class MainActivity extends AppCompatActivity implements WSCallsUtilsTaskCaller {
     private final String TAG = "MainActivity";
 
     @Override
@@ -33,31 +35,22 @@ public class MainActivity extends AppCompatActivity implements WSCallsUtilsTaskC
 
     }
 
-    private void displayPrivacyPolicy()
-    {
-        try
-        {
+    private void displayPrivacyPolicy() {
+        try {
             JSONObject jsonObject = SharedPreferencesUtils.get(this, SharedPreferencesUtils.PRIVACY_POLICY_ACCEPTANCE);
-            if(jsonObject == null)
-            {
+            if (jsonObject == null) {
                 setNavIcons(false, false);
 
                 PrivacyPolicyFrag privacyPolicyFrag = new PrivacyPolicyFrag();
                 FragmentUtils.startFragment(getSupportFragmentManager(), privacyPolicyFrag, R.id.fragContainer, getSupportActionBar(), "Privacy Policy", true, false, true, null);
-            }else
-            {
+            } else {
 
             }
-
-
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             Log.e(ConstantUtils.TAG, "\nError: " + e.getMessage()
                     + "\nMethod: MainActivity - displayPrivacyPolicy"
                     + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
         }
-
-
     }
 
     @Override
@@ -65,53 +58,40 @@ public class MainActivity extends AppCompatActivity implements WSCallsUtilsTaskC
         MenuInflater inflate = getMenuInflater();
         inflate.inflate(R.menu.menu, menu);
 
-
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch(item.getItemId())
-        {
-            case R.id.settings:
-            {
-
+        switch (item.getItemId()) {
+            case R.id.settings: {
 
                 break;
             }
-            default:
-            {
+            default: {
                 //unknown
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void wireUI()
-    {
+    private void wireUI() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
     }
 
+    public void setNavIcons(boolean home, boolean menu) {
+        if (home) {
 
-    public void setNavIcons(boolean home, boolean menu)
-    {
-        if(home)
-        {
-
-        }else
-        {
+        } else {
 
         }
 
-        if(menu)
-        {
+        if (menu) {
 
-        }else
-        {
+        } else {
 
         }
     }
@@ -123,8 +103,7 @@ public class MainActivity extends AppCompatActivity implements WSCallsUtilsTaskC
 
     @Override
     public void taskCompleted(String response, int reqCode) {
-        if(response != null)
-        {
+        if (response != null) {
 
         }
     }

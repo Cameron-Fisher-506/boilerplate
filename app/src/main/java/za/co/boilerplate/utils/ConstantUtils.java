@@ -1,7 +1,6 @@
 package za.co.boilerplate.utils;
 
-public class ConstantUtils
-{
+public class ConstantUtils {
     public static final String TAG = "Boilerplate";
 
     public static final int MAP_REFRESH_TIME = 30000;

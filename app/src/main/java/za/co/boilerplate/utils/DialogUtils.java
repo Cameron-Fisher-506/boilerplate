@@ -7,25 +7,20 @@ import android.content.DialogInterface;
 import za.co.boilerplate.dialogs.PermissionCallback;
 
 
-public class DialogUtils
-{
-
-    public static AlertDialog createAlertPermission(Context context, String title, String message, boolean isPrompt, final PermissionCallback permissionCallback)
-    {
+public class DialogUtils {
+    public static AlertDialog createAlertPermission(Context context, String title, String message, boolean isPrompt, final PermissionCallback permissionCallback) {
         AlertDialog toReturn = null;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
         builder.setMessage(message);
 
-        if(isPrompt)
-        {
+        if (isPrompt) {
             builder.setCancelable(true);
             builder.setPositiveButton(
                     "Yes",
                     new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id)
-                        {
+                        public void onClick(DialogInterface dialog, int id) {
                             permissionCallback.checkPermission(true);
                             dialog.cancel();
                         }
@@ -38,8 +33,7 @@ public class DialogUtils
                             dialog.cancel();
                         }
                     });
-        }else
-        {
+        } else {
             builder.setCancelable(false);
             builder.setPositiveButton(
                     "Okay",
@@ -53,6 +47,5 @@ public class DialogUtils
         toReturn = builder.create();
 
         return toReturn;
-
     }
 }

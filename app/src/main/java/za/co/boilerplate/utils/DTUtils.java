@@ -4,10 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DTUtils
-{
-    public static String getCurrentDateTime()
-    {
+public class DTUtils {
+    public static String getCurrentDateTime() {
         String toReturn = "";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
@@ -19,6 +17,5 @@ public class DTUtils
         toReturn = simpleDateFormat.format(now);
 
         return toReturn;
-
     }
 }
