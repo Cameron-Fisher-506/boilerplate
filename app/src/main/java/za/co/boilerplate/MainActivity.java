@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements WSCallsUtilsTaskC
                 setNavIcons(false, false);
 
                 PrivacyPolicyFrag privacyPolicyFrag = new PrivacyPolicyFrag();
-                FragmentUtils.startFragment(getSupportFragmentManager(), privacyPolicyFrag, R.id.fragContainer, getSupportActionBar(), "Privacy Policy", true, false, true, null);
+                FragmentUtils.startFragment(getSupportFragmentManager(), privacyPolicyFrag, R.id.fragmentContainer, getSupportActionBar(), "Privacy Policy", true, false, true, null);
             } else {
 
             }
