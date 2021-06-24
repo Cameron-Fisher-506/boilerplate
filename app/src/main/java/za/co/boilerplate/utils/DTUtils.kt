@@ -1,21 +1,18 @@
-package za.co.boilerplate.utils;
+package za.co.boilerplate.utils
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.text.SimpleDateFormat
+import java.util.*
 
-public class DTUtils {
-    public static String getCurrentDateTime() {
-        String toReturn = "";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date now = new Date();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
-        now = calendar.getTime();
-
-        toReturn = simpleDateFormat.format(now);
-
-        return toReturn;
+object DTUtils {
+    @JvmStatic
+    fun getCurrentDateTime(): String {
+        var toReturn = ""
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+        var now = Date()
+        val calendar = Calendar.getInstance()
+        calendar.time = now
+        now = calendar.time
+        toReturn = simpleDateFormat.format(now)
+        return toReturn
     }
 }

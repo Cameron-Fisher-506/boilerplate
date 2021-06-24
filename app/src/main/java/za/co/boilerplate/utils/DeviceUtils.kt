@@ -1,144 +1,95 @@
-package za.co.boilerplate.utils;
+package za.co.boilerplate.utils
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.BatteryManager;
-import android.os.Build;
-import android.provider.Settings;
-import android.telephony.TelephonyManager;
-import android.util.Log;
+import android.content.Context
+import android.net.ConnectivityManager
+import android.os.BatteryManager
+import android.os.Build
+import android.provider.Settings
+import android.telephony.TelephonyManager
+import android.util.Log
 
-import static android.content.Context.BATTERY_SERVICE;
-
-public class DeviceUtils {
-    public static String getIMEI(Context context) {
-        String toReturn = null;
-
+object DeviceUtils {
+    fun getIMEI(context: Context): String? {
+        var toReturn: String? = null
         try {
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                toReturn = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            toReturn = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                toReturn = telephonyManager.getImei();
+                telephonyManager.imei
             } else {
-                toReturn = telephonyManager.getDeviceId();
+                telephonyManager.deviceId
             }
-
-        } catch (SecurityException e) // What exception?
+        } catch (e: SecurityException) // What exception?
         {
-            Log.d(ConstantUtils.TAG, "\n\nClass: DeviceUtils" +
-                    "\nMethod: getIMEI" +
-                    "\nError: " + e.getMessage() +
-                    "\nCreatedTime: " + DTUtils.getCurrentDateTime());
-        } catch (Exception e) {
-            Log.d(ConstantUtils.TAG, "\n\nClass: DeviceUtils" +
-                    "\nMethod: getIMEI" +
-                    "\nError: " + e.getMessage() +
-                    "\nCreatedTime: " + DTUtils.getCurrentDateTime());
+            Log.d(ConstantUtils.TAG, "Class: DeviceUtils " +
+                    "Method: getIMEI " +
+                    "Error: ${e.message} " +
+                    "CreatedTime: ${DTUtils.getCurrentDateTime()}")
+        } catch (e: Exception) {
+            Log.d(ConstantUtils.TAG, "Class: DeviceUtils " +
+                    "Method: getIMEI " +
+                    "Error: ${e.message} " +
+                    "CreatedTime: ${DTUtils.getCurrentDateTime()}")
         }
-
-        return toReturn;
+        return toReturn
     }
 
-    public static String getBatteryLevel(Context context) {
-        String toReturn = null;
-
+    fun getBatteryLevel(context: Context): String? {
+        var toReturn: String? = null
         try {
-            BatteryManager bm = (BatteryManager) context.getSystemService(BATTERY_SERVICE);
+            val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
             if (bm != null) {
-                int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
-                toReturn = String.valueOf(batLevel).concat("%");
+                val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+                toReturn = "$batLevel%"
             }
-
-        } catch (Exception e) {
-            Log.d(ConstantUtils.TAG, "Method: DeviceUtils - getBatteryLevel"
-                    + "\nMessage: " + e.getMessage()
-                    + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
+        } catch (e: Exception) {
+            Log.d(ConstantUtils.TAG, "Method: DeviceUtils - getBatteryLevel " +
+                    "Message: ${e.message} " +
+                    "CreatedTime: ${DTUtils.getCurrentDateTime()}")
         }
-
-        return toReturn;
+        return toReturn
     }
 
-    public static String getNetworkType(Context context) {
-        String toReturn = null;
-
+    fun getNetworkType(context: Context): String? {
+        var toReturn: String? = null
         try {
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            if (telephonyManager != null) {
-                int networkType = telephonyManager.getNetworkType();
-                switch (networkType) {
-                    case TelephonyManager.NETWORK_TYPE_1xRTT:
-                        toReturn = "1xRTT";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_CDMA:
-                        toReturn = "CDMA";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_EDGE:
-                        toReturn = "EDGE";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_EHRPD:
-                        toReturn = "eHRPD";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_EVDO_0:
-                        toReturn = "EVDO rev. 0";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_EVDO_A:
-                        toReturn = "EVDO rev. A";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_EVDO_B:
-                        toReturn = "EVDO rev. B";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_GPRS:
-                        toReturn = "GPRS";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_HSDPA:
-                        toReturn = "HSDPA";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_HSPA:
-                        toReturn = "HSPA";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_HSPAP:
-                        toReturn = "HSPA+";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_HSUPA:
-                        toReturn = "HSUPA";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_IDEN:
-                        toReturn = "iDen";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_LTE:
-                        toReturn = "LTE";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_UMTS:
-                        toReturn = "UMTS";
-                        break;
-                    case TelephonyManager.NETWORK_TYPE_UNKNOWN:
-                        toReturn = "Unknown";
-                        break;
-                }
+            val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            when (telephonyManager.networkType) {
+                TelephonyManager.NETWORK_TYPE_1xRTT -> toReturn = "1xRTT"
+                TelephonyManager.NETWORK_TYPE_CDMA -> toReturn = "CDMA"
+                TelephonyManager.NETWORK_TYPE_EDGE -> toReturn = "EDGE"
+                TelephonyManager.NETWORK_TYPE_EHRPD -> toReturn = "eHRPD"
+                TelephonyManager.NETWORK_TYPE_EVDO_0 -> toReturn = "EVDO rev. 0"
+                TelephonyManager.NETWORK_TYPE_EVDO_A -> toReturn = "EVDO rev. A"
+                TelephonyManager.NETWORK_TYPE_EVDO_B -> toReturn = "EVDO rev. B"
+                TelephonyManager.NETWORK_TYPE_GPRS -> toReturn = "GPRS"
+                TelephonyManager.NETWORK_TYPE_HSDPA -> toReturn = "HSDPA"
+                TelephonyManager.NETWORK_TYPE_HSPA -> toReturn = "HSPA"
+                TelephonyManager.NETWORK_TYPE_HSPAP -> toReturn = "HSPA+"
+                TelephonyManager.NETWORK_TYPE_HSUPA -> toReturn = "HSUPA"
+                TelephonyManager.NETWORK_TYPE_IDEN -> toReturn = "iDen"
+                TelephonyManager.NETWORK_TYPE_LTE -> toReturn = "LTE"
+                TelephonyManager.NETWORK_TYPE_UMTS -> toReturn = "UMTS"
+                TelephonyManager.NETWORK_TYPE_UNKNOWN -> toReturn = "Unknown"
             }
-        } catch (Exception e) {
-            Log.d(ConstantUtils.TAG, "Method: DeviceUtils - getNetworkType"
-                    + "\nMessage: " + e.getMessage()
-                    + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
+        } catch (e: Exception) {
+            Log.d(ConstantUtils.TAG, "Method: DeviceUtils - getNetworkType " +
+                    "Message: ${e.message} " +
+                    "CreatedTime: ${DTUtils.getCurrentDateTime()}")
         }
-
-        return toReturn;
+        return toReturn
     }
 
-    public static Boolean isRoaming(Context context) {
-        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
-
-        if (networkInfo == null || !networkInfo.isConnected()) {
+    fun isRoaming(context: Context): Boolean {
+        val connManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connManager.activeNetworkInfo
+        return if (networkInfo == null || !networkInfo.isConnected) {
             // No connection will be seen as roaming as it cannot be established reliably
-            return true;
+            true
         } else {
-            NetworkInfo networkType = connManager.getActiveNetworkInfo();
-            return networkType.isRoaming();
+            val networkType = connManager.activeNetworkInfo
+            networkType!!.isRoaming
         }
     }
 }

@@ -1,5 +1,5 @@
-package za.co.boilerplate.dialogs;
+package za.co.boilerplate.dialogs
 
-public interface PermissionCallback {
-    void checkPermission(boolean isCheckPermission);
+interface PermissionCallback {
+    fun checkPermission(isCheckPermission: Boolean)
 }

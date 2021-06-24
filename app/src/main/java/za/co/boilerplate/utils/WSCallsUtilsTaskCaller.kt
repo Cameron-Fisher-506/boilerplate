@@ -1,9 +1,8 @@
-package za.co.boilerplate.utils;
+package za.co.boilerplate.utils
 
-import android.app.Activity;
+import android.app.Activity
 
-public interface WSCallsUtilsTaskCaller {
-    void taskCompleted(String response, int reqCode);
-
-    Activity getActivity();
+interface WSCallsUtilsTaskCaller {
+    fun taskCompleted(response: String?, reqCode: Int)
+    val activity: Activity?
 }

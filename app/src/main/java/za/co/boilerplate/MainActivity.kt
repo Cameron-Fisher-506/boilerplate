@@ -34,12 +34,9 @@ class MainActivity : AppCompatActivity(), WSCallsUtilsTaskCaller {
             } else {
             }
         } catch (e: Exception) {
-            Log.e(ConstantUtils.TAG, """
-     
-     Error: ${e.message}
-     Method: MainActivity - displayPrivacyPolicy
-     CreatedTime: ${DTUtils.getCurrentDateTime()}
-     """.trimIndent())
+            Log.e(ConstantUtils.TAG, "Error: ${e.message} " +
+                    "Method: MainActivity - displayPrivacyPolicy " +
+                    "CreatedTime: ${DTUtils.getCurrentDateTime()}")
         }
     }
 
@@ -73,12 +70,11 @@ class MainActivity : AppCompatActivity(), WSCallsUtilsTaskCaller {
         }
     }
 
-    override fun getActivity(): Activity? {
-        return null
-    }
-
     override fun taskCompleted(response: String?, reqCode: Int) {
         if (response != null) {
         }
     }
+
+    override val activity: Activity?
+        get() = TODO("Not yet implemented")
 }

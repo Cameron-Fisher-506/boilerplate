@@ -61,8 +61,8 @@ class PrivacyPolicyFrag : Fragment(R.layout.privacy_policy_fragment) {
             try {
                 val jsonObject = JSONObject()
                 jsonObject.put("isAccepted", true)
-                SharedPreferencesUtils.save(context, SharedPreferencesUtils.PRIVACY_POLICY_ACCEPTANCE, jsonObject)
-                context!!.startActivity(Intent(activity, MainActivity::class.java))
+                context?.let { SharedPreferencesUtils.save(it, SharedPreferencesUtils.PRIVACY_POLICY_ACCEPTANCE, jsonObject) }
+                startActivity(Intent(activity, MainActivity::class.java))
             } catch (e: Exception) {
                 Log.d(ConstantUtils.TAG, "Class: PrivacyPolicyFrag" +
                         "Method: onCreateView " +

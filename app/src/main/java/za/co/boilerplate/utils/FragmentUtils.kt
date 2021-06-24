@@ -1,35 +1,35 @@
-package za.co.boilerplate.utils;
+package za.co.boilerplate.utils
 
-import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.ActionBar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import za.co.boilerplate.R
 
-import za.co.boilerplate.R;
-
-public class FragmentUtils {
-    public static void startFragment(FragmentManager fragmentManager, Fragment fragment, int containerId, ActionBar actionBar, String title, boolean isRequireReplace, boolean isRequireBackStack, boolean isRequireAnimation, String tag) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+object FragmentUtils {
+    fun startFragment(fragmentManager: FragmentManager, fragment: Fragment?, containerId: Int, actionBar: ActionBar?, title: String?, isRequireReplace: Boolean, isRequireBackStack: Boolean, isRequireAnimation: Boolean, tag: String?) {
+        val fragmentTransaction = fragmentManager.beginTransaction()
 
         if (isRequireAnimation) {
-            fragmentTransaction.setCustomAnimations(R.anim.push_in_from_left, R.anim.push_out_to_right, R.anim.push_in_from_right, R.anim.push_out_to_left);
+            fragmentTransaction.setCustomAnimations(R.anim.push_in_from_left, R.anim.push_out_to_right, R.anim.push_in_from_right, R.anim.push_out_to_left)
             //fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
         }
 
-        if (isRequireReplace) {
-            fragmentTransaction.replace(containerId, fragment);
-        } else {
-            fragmentTransaction.add(containerId, fragment);
+        fragment?.let {
+            if (isRequireReplace) {
+                fragmentTransaction.replace(containerId, fragment)
+            } else {
+                fragmentTransaction.add(containerId, fragment)
+            }
         }
 
         if (isRequireBackStack) {
-            fragmentTransaction.addToBackStack(tag);
+            fragmentTransaction.addToBackStack(tag)
         }
 
-        if (actionBar != null) {
-            actionBar.setTitle(title);
+        actionBar?.let {
+            actionBar.title = title
         }
 
-        fragmentTransaction.commit();
+        fragmentTransaction.commit()
     }
 }

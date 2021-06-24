@@ -1,16 +1,14 @@
-package za.co.boilerplate.utils;
+package za.co.boilerplate.utils
 
-import java.text.DecimalFormat;
+import java.text.DecimalFormat
 
-public class MathUtils {
-    public static Double precision(Double value) {
-        Double toReturn = null;
-
+object MathUtils {
+    fun precision(value: Double?): Double? {
+        var toReturn: Double? = null
         if (value != null) {
-            DecimalFormat decimalFormat = new DecimalFormat("#,##");
-            toReturn = Double.valueOf(decimalFormat.format(value));
+            val decimalFormat = DecimalFormat("#,##")
+            toReturn = java.lang.Double.valueOf(decimalFormat.format(value))
         }
-
-        return toReturn;
+        return toReturn
     }
 }

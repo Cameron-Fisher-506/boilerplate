@@ -1,16 +1,15 @@
-package za.co.boilerplate.utils;
+package za.co.boilerplate.utils
 
-public class ConstantUtils {
-    public static final String TAG = "Boilerplate";
-
-    public static final int MAP_REFRESH_TIME = 30000;
-    public static final int DEVICE_SERVICE_TIME = 30000;
+object ConstantUtils {
+    const val TAG = "Boilerplate"
+    const val MAP_REFRESH_TIME = 30000
+    const val DEVICE_SERVICE_TIME = 30000
 
     //REQUEST METHODS
-    public static final String REQUEST_METHOD_POST = "POST";
-    public static final String REQUEST_METHOD_GET = "GET";
+    const val REQUEST_METHOD_POST = "POST"
+    const val REQUEST_METHOD_GET = "GET"
 
     //TIMEOUTS
-    public static final int TIMEOUT_CONNECTION = 60000;
-    public static final int TIMEOUT_READ = 60000;
+    const val TIMEOUT_CONNECTION = 60000
+    const val TIMEOUT_READ = 60000
 }
