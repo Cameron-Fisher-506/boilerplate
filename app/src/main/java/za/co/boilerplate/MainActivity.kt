@@ -1,110 +1,84 @@
-package za.co.boilerplate;
+package za.co.boilerplate
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import android.app.Activity
+import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import za.co.boilerplate.databinding.ActivityMainBinding
+import za.co.boilerplate.policies.PrivacyPolicyFrag
+import za.co.boilerplate.utils.*
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+class MainActivity : AppCompatActivity(), WSCallsUtilsTaskCaller {
+    private lateinit var binding: ActivityMainBinding
+    private val TAG = "MainActivity"
 
-import org.json.JSONObject;
-
-import za.co.boilerplate.policies.PrivacyPolicyFrag;
-import za.co.boilerplate.utils.ConstantUtils;
-import za.co.boilerplate.utils.DTUtils;
-import za.co.boilerplate.utils.FragmentUtils;
-import za.co.boilerplate.utils.SharedPreferencesUtils;
-import za.co.boilerplate.utils.WSCallsUtilsTaskCaller;
-
-
-public class MainActivity extends AppCompatActivity implements WSCallsUtilsTaskCaller {
-    private final String TAG = "MainActivity";
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        wireUI();
-
-        displayPrivacyPolicy();
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        this.binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(this.binding.root)
+        wireUI()
+        displayPrivacyPolicy()
     }
 
-    private void displayPrivacyPolicy() {
+    private fun displayPrivacyPolicy() {
         try {
-            JSONObject jsonObject = SharedPreferencesUtils.get(this, SharedPreferencesUtils.PRIVACY_POLICY_ACCEPTANCE);
+            val jsonObject = SharedPreferencesUtils.get(this, SharedPreferencesUtils.PRIVACY_POLICY_ACCEPTANCE)
             if (jsonObject == null) {
-                setNavIcons(false, false);
-
-                PrivacyPolicyFrag privacyPolicyFrag = new PrivacyPolicyFrag();
-                FragmentUtils.startFragment(getSupportFragmentManager(), privacyPolicyFrag, R.id.fragmentContainer, getSupportActionBar(), "Privacy Policy", true, false, true, null);
+                setNavIcons(false, false)
+                val privacyPolicyFrag = PrivacyPolicyFrag()
+                FragmentUtils.startFragment(supportFragmentManager, privacyPolicyFrag, R.id.fragmentContainer, supportActionBar, "Privacy Policy", true, false, true, null)
             } else {
-
             }
-        } catch (Exception e) {
-            Log.e(ConstantUtils.TAG, "\nError: " + e.getMessage()
-                    + "\nMethod: MainActivity - displayPrivacyPolicy"
-                    + "\nCreatedTime: " + DTUtils.getCurrentDateTime());
+        } catch (e: Exception) {
+            Log.e(ConstantUtils.TAG, """
+     
+     Error: ${e.message}
+     Method: MainActivity - displayPrivacyPolicy
+     CreatedTime: ${DTUtils.getCurrentDateTime()}
+     """.trimIndent())
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflate = getMenuInflater();
-        inflate.inflate(R.menu.menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflate = menuInflater
+        inflate.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.settings: {
-
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.settings -> {
             }
-            default: {
-                //unknown
+            else -> {
             }
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-    private void wireUI() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-
+    private fun wireUI() {
+        val toolbar = findViewById<View>(R.id.app_bar) as Toolbar
+        setSupportActionBar(toolbar)
     }
 
-    public void setNavIcons(boolean home, boolean menu) {
+    fun setNavIcons(home: Boolean, menu: Boolean) {
         if (home) {
-
         } else {
-
         }
-
         if (menu) {
-
         } else {
-
         }
     }
 
-    @Override
-    public Activity getActivity() {
-        return null;
+    override fun getActivity(): Activity? {
+        return null
     }
 
-    @Override
-    public void taskCompleted(String response, int reqCode) {
+    override fun taskCompleted(response: String?, reqCode: Int) {
         if (response != null) {
-
         }
     }
 }

@@ -24,6 +24,8 @@ class PrivacyPolicyFrag : Fragment(R.layout.privacy_policy_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        this.binding = PrivacyPolicyFragmentBinding.bind(view)
+
         val privacyPolicy = """        <p style="text-align:left; margin:4%;">Your privacy and legal rights are important to us. It is Track My&#39;s policy to respect your privacy regarding any information we may collect from you.<br />
         <br />
         We only ask for personal information that is required for us to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we&#39;re collecting it and how it will be used.<br />
